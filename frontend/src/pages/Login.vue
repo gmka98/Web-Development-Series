@@ -1,30 +1,41 @@
-<template>
+<template link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
     <body>
     <div class="login_form">
-   <div class="left">
-    <h1>Login</h1>
-   <form action="/dashboard">
-    <label for="fname">Email:</label><br>
-    <input type="text" id="fname" name="fname" placeholder="Enter your email"><br>
-    <label for="lname">Password:</label><br>
-    <input type="text" id="lname" name="lname" placeholder="Enter password"><br><br>
-    <input type="checkbox"><span>Remember me</span>
-    <br><br>
-    <input type="submit" id="login_btn" value="Login">
-  </form> 
-  <button href="localhost:8080/dashboard">sign up</button>
-  <img src="Adimian.jpg">
+   
+  <div class="left">
+    <h2>Profesionnal Development Series</h2>
+    <p>Adimian App for his members
+    </p>
+  </div>
+  
+  <div>
+
   </div>
   <div class="right">
-    <img src="adimian_logo.jpg">
-    <h2>Profesionnal Development Series</h2>
+    <img src="adimian-logo.jpg">
+
+    <h1>Login</h1>
+   <form action="/dashboard">
+    <label id="email" for="fname">Email Address</label><br>
+    <input type="text" id="fname" name="fname" placeholder="Enter your email"><br>
+    <label id="password" for="lname">Password</label><br>
+    <input type="text" id="lname" name="lname" placeholder="Enter password"><br><br>
+    <input type="checkbox"><span>Remember me</span>
+    <br>
+    <input type="submit" id="login_btn" value="Login">
+  </form> 
+  <button class="btn-google">
+    <i class="material-icons">google</i> Connexion avec Google
+  </button>
+  <img id="adimian-text" src="Adimian-name.jpg">
   </div>
     </div>
   </body>
   </template>
   <style scoped>
    body{
-    background-color: rgba(82, 82, 82, 0.137);
+    background-color: #25ca0f;
    }
     .login_form{
       display: inline-flex;
@@ -32,7 +43,10 @@
       
     }
     #login_btn{
-      width: 350px;
+      width: 70px;
+      height: 35px;
+      color: white;
+      background-color: green;
     }
     button{
       width:350px;
@@ -43,35 +57,102 @@
       color: white;
       text-align: center;
     }
+    p{
+      color: white;
+      font-size: 20px;
+    }
     .left{
+      background-image: url("../../public/green.jpg");
       padding: 10%;
-      background-color: rgba(255, 255, 255, 0.438);
       margin-left: 5cm;
       margin-top: 5cm;
       margin-bottom: 5cm;
-      border-radius: 15px;
     }
     .right{
-      background-color: rgb(0, 83, 14);
+      background-color: rgb(255, 255, 255);
       padding: 10%;
       margin-right: 3cm;
       margin-top: 5cm;
       margin-bottom: 5cm;
       width: 50%;
     }
+    .btn-google {
+  background-color: #c51919;
+  color: #ffffff;
+  border: 1px solid #757575;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  cursor: pointer;
+  text-align: center;
+}
+
+.btn-google:hover {
+  background-color: #25ca0f;
+}
+
     #fname{
-      border-radius: 15px;
       width: 350px;
+      height: 35px;
   
     }
     #lname{
-      border-radius: 15px;
+      height: 35px;
       width: 350px;
     }
+    #email{
+      font-weight: bold;
+    }
+    #password{
+      font-weight: bold
+}
+#adimian-text{
+  
+}
   </style>
 <script>
-import {defineComponent} from 'vue'
-export default defineComponent({
-    name: "Log"
-})
+import axios from 'axios'
+
+export default {
+  data() {
+    return {
+      email: '',
+      password: '',
+      remember: false
+    }
+  },
+  methods: {
+    async submitForm(event) {
+      event.preventDefault()
+
+      try {
+        const response = await axios.post('/api/login', {
+          email: this.email,
+          password: this.password
+        })
+
+        const { token, isAdmin, userId } = response.data
+
+        // Save the token in local storage
+        localStorage.setItem('token', token)
+
+        // Redirect the user based on their role
+        if (isAdmin) {
+          router.push({ name: 'admin', params: { userId } })
+        } else {
+          router.push({ name: 'dashboard', params: { userId } })
+        }
+      } catch (error) {
+        // Handle errors
+        console.error(error)
+      }
+    },
+    goToSignup() {
+      router.push({ name: 'signup' })
+    }
+  }
+}
 </script>

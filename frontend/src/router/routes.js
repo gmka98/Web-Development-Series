@@ -1,3 +1,5 @@
+import { createRouter, createWebHistory } from 'vue-router'
+
 
 const routes = [
   {
@@ -25,7 +27,8 @@ const routes = [
     children: [
       {path: '', component: () =>import('pages/Admin.vue')},
       {path: 'student', component: () =>import('pages/Student.vue')},
-      {path: 'event', component: () =>import('pages/Event.vue')}
+      {path: 'event', component: () =>import('pages/Event.vue')},
+      {path: 'note', component: () =>import('pages/Note.vue')}
 
 
     ]
@@ -37,6 +40,27 @@ const routes = [
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue')
+  },
+  {
+    path: '/',
+    redirect: '/login'
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('pages/Login.vue')
+  },
+  {
+    path: '/dashboard/:userId',
+    name: 'dashboard',
+    component: () => import('pages/User.vue'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/admin/:userId',
+    name: 'admin',
+    component: () => import('pages/Admin.vue'),
+    meta: { requiresAuth: true, requiresAdmin: true }
   }
 ]
 

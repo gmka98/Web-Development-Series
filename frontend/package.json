@@ -11,6 +11,8 @@
     "build": "quasar build"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.7",
+    "@fullcalendar/daygrid": "^6.1.7",
     "@quasar/extras": "^1.0.0",
     "axios": "^1.4.0",
     "core-js": "^3.6.5",

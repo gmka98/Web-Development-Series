@@ -18,11 +18,11 @@
           <img src="../../public/Junior.jpg" />
           <h1>Admin</h1>
           <hr />
-          <a href="/dashboard">Dashboard</a>
+          <a href="/admin/dashboard">Dashboard</a>
           <br>
           <a href="dashboard/course">Course</a>
           <br>
-          <a href="dashboard/calendar">Calendar</a>
+          <a href="admin/event">Calendar</a>
           <br>
           <a href="dashboard/evaluation">Evaluation</a>
           <br>

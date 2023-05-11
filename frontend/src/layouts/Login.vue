@@ -114,8 +114,45 @@
 }
   </style>
 <script>
-import {defineComponent} from 'vue'
-export default defineComponent({
-    name: "Log"
-})
+import axios from 'axios'
+
+export default {
+  data() {
+    return {
+      email: '',
+      password: '',
+      remember: false
+    }
+  },
+  methods: {
+    async submitForm(event) {
+      event.preventDefault()
+
+      try {
+        const response = await axios.post('/api/login', {
+          email: this.email,
+          password: this.password
+        })
+
+        const { token, isAdmin, userId } = response.data
+
+        // Save the token in local storage
+        localStorage.setItem('token', token)
+
+        // Redirect the user based on their role
+        if (isAdmin) {
+          router.push({ name: 'admin', params: { userId } })
+        } else {
+          router.push({ name: 'dashboard', params: { userId } })
+        }
+      } catch (error) {
+        // Handle errors
+        console.error(error)
+      }
+    },
+    goToSignup() {
+      router.push({ name: 'signup' })
+    }
+  }
+}
 </script>
