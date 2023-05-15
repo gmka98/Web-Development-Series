@@ -1,5 +1,23 @@
 from pydantic import BaseModel
 
+class Evaluation(BaseModel):
+    id: int
+    user_id: int
+
+class Event(BaseModel):
+    title: str
+    start: str
+    end: str
+
+events = []
+
+class Student(BaseModel):
+    id: int
+    email:str
+    status: str
+
+students = []    
+
 class UserBase(BaseModel):
     email: str
 

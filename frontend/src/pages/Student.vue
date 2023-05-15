@@ -35,32 +35,64 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      newStudent: {
-        email: '',
-        status: 'junior'
-      },
-      students: [],
-      nextId: 1
-    };
-  },
-  methods: {
-    createStudent() {
-      const student = {
-        email: this.newStudent.email,
-        status: this.newStudent.status,
-        id: this.nextId
+  import axios from 'axios';
+  
+  export default {
+    data() {
+      return {
+        newStudent: {
+          email: '',
+          status: 'junior'
+        },
+        students: [],
+        nextId: 1
       };
-      this.students.push(student);
-      this.nextId++;
-      this.newStudent.email = ''; // clear the input field
-      this.newStudent.status = 'junior'; // reset the select field
     },
-    createEvaluation(studentId) {
-      // Logic to create evaluation for the selected student
-    }
-  }
-};
-</script>
+    methods: {
+      createStudent() {
+        const student = {
+          email: this.newStudent.email,
+          status: this.newStudent.status,
+          id: this.nextId
+        };
+        
+        axios.post('/api/students', student)
+          .then(response => {
+            this.students.push(student);
+            this.nextId++;
+            this.newStudent.email = ''; // clear the input field
+            this.newStudent.status = 'junior'; // reset the select field
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      },
+      createEvaluation(studentId) {
+        const evaluation = {
+          studentId: studentId
+          // Include other evaluation data as needed
+        };
+  
+        axios.post('/api/evaluations', evaluation)
+          .then(response => {
+            // Handle successful creation of evaluation
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      },
+      fetchStudents() {
+        axios.get('/api/students')
+          .then(response => {
+            this.students = response.data;
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
+    },
+    mounted() {
+      this.fetchStudents();
+    },
+  };
+  </script>

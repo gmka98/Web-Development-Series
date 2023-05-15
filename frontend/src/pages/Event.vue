@@ -11,6 +11,7 @@
 <script>
 import { Calendar } from '@fullcalendar/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import axios from 'axios';
 
 export default {
   data() {

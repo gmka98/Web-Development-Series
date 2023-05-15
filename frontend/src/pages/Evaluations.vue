@@ -7,6 +7,7 @@
 
 <script>
 import EvaluationList from '../components/EvaluationList.vue';
+import axios from 'axios';
 
 export default {
   name: 'Evaluations',
@@ -15,23 +16,21 @@ export default {
   },
   data() {
     return {
-      evaluations: [
-        {
-          date: '2023-04-01',
-          activeParticipation: 'Yes',
-          behavior: 'Good',
-          acquisition: 'Yes',
-          comments: 'Keep up the good work!'
-        },
-        {
-          date: '2023-04-15',
-          activeParticipation: 'Yes',
-          behavior: 'Neutral',
-          acquisition: 'Partial',
-          comments: 'Work on improving your knowledge acquisition'
-        },
-        // Add more evaluations as needed
-      ]
+      evaluations: []
+    }
+  },
+  mounted(){
+    this.fetchEvaluations();
+  },
+  methods: {
+    fetchEvaluations(){
+      axios.get('/api/users/{user_id}/evaluations')
+      .then(response =>{
+        this.evaluations = response.data;
+      })
+      .catch(error => {
+        console.error('Error fetching evaluations:', error);
+      });
     }
   }
 }
