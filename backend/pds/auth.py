@@ -26,8 +26,8 @@ def get_current_user(token: str = Depends(oauth2_scheme)):
         algorithms=[settings.algorithm],
     )
     user_id = decoded_token.get("sub")
-    db = get_session()
-    user = db.query(User).get(user_id)
+    db = next(get_session())
+    user = db.query(User).filter_by(email=user_id).one
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -47,7 +47,10 @@ def create_access_token(user: User) -> Token:
         settings.secret_key,
         algorithm=settings.algorithm,
     )
-    return Token(access_token=encoded_jwt, token_type="access_token")
+    return Token(
+        access_token=encoded_jwt,
+        token_type="access_token",
+    )
 
 
 def authenticate_user(email: str, password: str, db: Session) -> User:

@@ -3,8 +3,10 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from starlette.testclient import TestClient
 
+from pds.auth import create_access_token
 from pds.database import Base, get_session
 from pds.settings import get_settings
+from pds.users import User
 from server import app_maker
 
 
@@ -76,4 +78,9 @@ def app(
 
 @pytest.fixture
 def client(app):
-    return TestClient(app=app)
+    class LogEnabledTestClient(TestClient):
+        def log_as(self, user: User):
+            token = create_access_token(user=user)
+            self.headers["Authorization"] = f"Bearer {token.access_token}"
+
+    return LogEnabledTestClient(app=app)
