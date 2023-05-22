@@ -26,7 +26,7 @@
           <br>
           <a href="dashboard/evaluation">Evaluation</a>
           <br>
-          <a href="admin/student">Student</a>
+          <a href="admin/note">Student</a>
           <br>
           <a href="https://slack.com/intl/fr-be/">Message</a>
   

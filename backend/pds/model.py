@@ -3,6 +3,11 @@ from pydantic import BaseModel
 class Evaluation(BaseModel):
     id: int
     user_id: int
+    date: int
+    active_participation: str
+    behavior: str
+    acquisition_of_knowledge: str
+    comments: str
 
 class Event(BaseModel):
     title: str
