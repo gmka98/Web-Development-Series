@@ -1,11 +1,22 @@
+import datetime
+
 from fastapi import Depends, HTTPException, APIRouter
 from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
+import arrow
 
 from pds.auth import authenticate_user, create_access_token, get_current_user
 from pds.database import get_session
-from pds.model import User, Token, Student, Event
+from pds.evaluations import Evaluation
+from pds.model import (
+    User,
+    Token,
+    Student,
+    Event,
+    EvaluationCreateModel,
+    EvaluationModel,
+)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/login")
 
@@ -65,13 +76,30 @@ evaluations = [
 ]
 
 
-@router.post("/users/{user_id}/evaluations")
-async def create_user_evaluations(user_id: int, evaluation: dict):
-    # Assuming the evaluation data is sent in the request body as a JSON object
-    evaluation["user_id"] = user_id
-    evaluation["id"] = len(evaluations) + 1
-    evaluations.append(evaluation)
-    return JSONResponse(content=evaluation, status_code=201)
+@router.post(
+    "/users/{user_id}/evaluations",
+    response_model=EvaluationModel,
+    status_code=201,
+)
+async def create_user_evaluations(
+    user_id: int,
+    payload: EvaluationCreateModel,
+    db: Session = Depends(get_session),
+):
+    ev = Evaluation(
+        user_id=user_id,
+        active_participation=payload.active_participation,
+        behavior=payload.behavior,
+        acquisition_of_knowledge=payload.acquisition_of_knowledge,
+        comments=payload.comments,
+        date=arrow.utcnow().isoformat(),
+    )
+    db.add(ev)
+    db.commit()
+
+    model = EvaluationModel.from_orm(ev)
+
+    return model
 
 
 @router.get("/users/{user_id}/evaluations")

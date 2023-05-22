@@ -38,3 +38,19 @@ class User(UserBase):
 class Token(BaseModel):
     access_token: str
     token_type: str
+
+
+class EvaluationCreateModel(BaseModel):
+    active_participation: str
+    behavior: str
+    acquisition_of_knowledge: str
+    comments: str | None
+
+
+class EvaluationModel(EvaluationCreateModel):
+    id: int
+    user_id: int
+    date: str
+
+    class Config:
+        orm_mode = True
