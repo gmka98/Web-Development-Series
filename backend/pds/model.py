@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class Evaluation(BaseModel):
     id: int
     user_id: int
@@ -9,26 +10,27 @@ class Evaluation(BaseModel):
     acquisition_of_knowledge: str
     comments: str
 
+
 class Event(BaseModel):
     title: str
     start: str
     end: str
 
-events = []
 
 class Student(BaseModel):
     id: int
-    email:str
+    email: str
     status: str
 
-students = []    
 
 class UserBase(BaseModel):
     email: str
 
+
 class UserCreate(UserBase):
     password: str
     is_admin: bool
+
 
 class User(UserBase):
     id: int
@@ -37,7 +39,7 @@ class User(UserBase):
     class Config:
         orm_mode = True
 
+
 class Token(BaseModel):
     access_token: str
     token_type: str
-
