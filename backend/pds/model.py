@@ -1,14 +1,19 @@
 from pydantic import BaseModel
 
 
-class Evaluation(BaseModel):
-    id: int
-    user_id: int
-    date: int
+
+class EvaluationCreateModel(BaseModel):
+  
     active_participation: str
     behavior: str
     acquisition_of_knowledge: str
-    comments: str
+    comments: str|None
+
+class Evaluation(EvaluationCreateModel):
+    id: int
+    user_id: int
+    date: str
+
 
 
 class Event(BaseModel):

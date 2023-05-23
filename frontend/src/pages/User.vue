@@ -1,17 +1,22 @@
 <template>
-  <div class="date-today">
+  <div class="first-section">
+  <div class="Title">
     <span class="dash">DASHBOARD</span>
+    </div>
+  <div class="Time">  
     <span>{{ currentDate }}</span>
   </div>
+</div>
+
   <h4>LAST EVALUATION</h4>
-  <div>
+  <div class="second-section">
     <h1>{{user.name}}</h1>
     <p>Presence: {{user.presence}}</p>
     <user-presence-rate :presence="user.presence"></user-presence-rate>
   </div>
+  <div class="last-section">
   <div class="course-event">
     <h4>NEXT COURSE</h4>
-
     <div class="exercice">
       <p>Level 3 - Collaboration</p>
       <span>Being a team player</span><span> -----> </span> <span>settings boundaries</span>
@@ -20,23 +25,40 @@
       <br>
     </div>
     <h4>Event</h4>
-    <div>
-      <div class="to-know">
-        <div>
-          Gael   Internship follow-up
-        </div>
-        <div>09:30 AM - 10:00 AM</div>
+    <div class="to-know">
+      <div style="display: inline-block;">
+        Gael   Internship follow-up
       </div>
-      <div class="to-know">
-        <div>
-          Next Event
-        </div>
-        <div>{{ nextEvent }}</div>
+      <div style="display: inline-block;">09:30 AM - 10:00 AM</div>
+    </div>
+    <div class="to-know">
+      <div style="display: inline-block;">
+        Next Event
       </div>
+      <div style="display: inline-block;">{{ nextEvent }}</div>
     </div>
   </div>
-</template>
+</div>
 
+</template>
+<style>
+.first-section{
+  border: 1px solid black;
+}
+
+.second-section{
+  border: 1px solid black;
+}
+.last-section{
+  border: 1px solid black;
+  display: inline;
+
+}
+.exercice{
+  border: 1px solid black;
+
+}
+</style>
 <script>
 import { defineComponent } from 'vue'
 import UserPresenceRate from '../components/UserPresenceRate.vue';

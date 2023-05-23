@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from pds.auth import authenticate_user, create_access_token, get_current_user
 from pds.database import get_session
-from pds.model import User, Token, Student, Event
+from pds.model import User, Token, Student, Event, Evaluation
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/login")
 
@@ -34,45 +34,25 @@ def protected_route(current_user: User = Depends(get_current_user)):
 
 
 # Assume this list of evaluations is coming from a database or another data source
+
 evaluations = [
-    {
-        "id": 1,
-        "user_id": 1,
-        "date": "2022-04-25",
-        "active_participation": "yes",
-        "behavior": "good",
-        "acquisition_of_knowledge": "yes",
-        "comments": "Great job!",
-    },
-    {
-        "id": 2,
-        "user_id": 1,
-        "date": "2022-04-20",
-        "active_participation": "yes",
-        "behavior": "neutral",
-        "acquisition_of_knowledge": "partial",
-        "comments": "Need to work on understanding the concepts better",
-    },
-    {
-        "id": 3,
-        "user_id": 1,
-        "date": "2022-04-15",
-        "active_participation": "no",
-        "behavior": "problematic",
-        "acquisition_of_knowledge": "no",
-        "comments": "Not engaged in the course",
-    },
+   
 ]
 
+@router.post("/users/{user_id}/evaluations", response_model=list[Evaluation])
+async def create_user_evaluations(
+    user_id: int,
+    payload: EvaluationCreateModel,
+    db: Session = Depends(get_session)
+)
+    
+    ev = Evaluation(
+        user_id=user_id,
+        active_participation=payload.active_participation
+    )
 
-@router.post("/users/{user_id}/evaluations")
-async def create_user_evaluations(user_id: int, evaluation: dict):
-    # Assuming the evaluation data is sent in the request body as a JSON object
-    evaluation["user_id"] = user_id
-    evaluation["id"] = len(evaluations) + 1
-    evaluations.append(evaluation)
-    return JSONResponse(content=evaluation, status_code=201)
-
+    db.add(ev)
+    db.commit()
 
 @router.get("/users/{user_id}/evaluations")
 async def get_user_evaluations(user_id: int):
@@ -84,7 +64,7 @@ async def get_user_evaluations(user_id: int):
 
 
 @router.put("/evaluations/{evaluation_id}")
-async def update_evaluation(evaluation_id: int, evaluation: dict):
+async def update_evaluation(evaluation_id: int, evaluation: Evaluation):
     index = next(
         (
             index
@@ -114,7 +94,7 @@ async def delete_evaluation(evaluation_id: int):
     deleted_evaluation = evaluations.pop(index)
     return JSONResponse(content=deleted_evaluation)
 
-
+students = []
 @router.post("/students")
 def create_student(student: Student):
     student_dict = student.dict()
@@ -154,7 +134,7 @@ def delete_student(student_id: int):
             return {"message": "Student deleted successfully"}
     return {"error": "Student not found"}
 
-
+events = []
 @router.post("/events")
 def create_event(event: Event):
     events.append(event)
