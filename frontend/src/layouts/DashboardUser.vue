@@ -29,7 +29,7 @@
         <a href="https://slack.com/intl/fr-be/">Message</a>
 
         <hr />
-        <h5>Log out</h5>
+        <a href="/">Log out</a>
       </div>
     </q-drawer>
 

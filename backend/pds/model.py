@@ -1,19 +1,9 @@
 from pydantic import BaseModel
 
 
-
-class EvaluationCreateModel(BaseModel):
-  
-    active_participation: str
-    behavior: str
-    acquisition_of_knowledge: str
-    comments: str|None
-
-class Evaluation(EvaluationCreateModel):
+class Evaluation(BaseModel):
     id: int
     user_id: int
-    date: str
-
 
 
 class Event(BaseModel):
@@ -48,3 +38,27 @@ class User(UserBase):
 class Token(BaseModel):
     access_token: str
     token_type: str
+
+
+class EvaluationCreateModel(BaseModel):
+    active_participation: str
+    behavior: str
+    acquisition_of_knowledge: str
+    comments: str | None
+
+
+class EvaluationModel(EvaluationCreateModel):
+    id: int
+    user_id: int
+    date: str
+
+    class Config:
+        orm_mode = True
+
+class Course(BaseModel):
+    id: int
+    name: str
+    level: str
+    category: str
+    sous_category:str
+            

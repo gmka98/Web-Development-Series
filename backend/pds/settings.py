@@ -22,7 +22,7 @@ class Database(BaseSettings):
     user: str = "postgres"
     port: str = "5432"
     password: str = "7bc3e5fb8e334bebbaee50f05658dcb7"
-    name: str = "wds-test"
+    name: str = "wds_test"
     uri: PostgresDsn = ""
 
     @validator("uri", pre=True)
