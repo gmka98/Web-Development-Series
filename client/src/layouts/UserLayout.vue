@@ -40,7 +40,27 @@
         bordered
         class="bg-green-9"
       >
-      <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #115325">
+      <div class="q-py-lg">
+    <div class="q-mx-xl">
+      <q-btn rounded color="white">
+      <q-avatar
+      round
+      color="white"
+      size="100px"
+      class="overlapping q-mx-lg "
+      :style="`center: 50px`"
+    >
+      <img 
+      src="https://cdn.quasar.dev/img/avatar.png" class="">
+    </q-avatar>
+  </q-btn>
+    <div>
+    </div>            
+    <div class="text-center text-white"> Junior </div>
+    </div>
+  </div>
+    <hr>
+      <q-scroll-area class="" style="height: calc(100% - 150px); margin-top: 10px; border-right: 1px solid #115325">
         <q-list>
   <template v-for="(menuItem, index) in menuList" :key="index">
     <q-item class="text-white" clickable :active="menuItem.label === 'Outbox'" v-ripple>
@@ -56,15 +76,8 @@
 </q-list>
 
       </q-scroll-area>
-      <q-img class="absolute-top  bg-green-9 "  style="height: 150px" border-bottom: 1px solid text-white ; >
-          <div class="absolute-bottom bg-transparent">
-            <q-avatar  size="56px" class="q-mb-sm">
-              <img src="https://cdn.quasar.dev/img/boy-avatar.png" class="mx-auto">
-            </q-avatar>
-            <div class="text-weight-bold">Grade</div>
-            <div> email </div>
-          </div>
-        </q-img>
+      
+           
         <a href="/">
       <div class="absolute-bottom text-center text-white hover:text-black">
         <q-icon name="logout" size="2em"/>

@@ -7,11 +7,38 @@
      </div> 
       
     </q-banner>
+    <div class="">
+    Last Evaluations
+    <q-banner rounded class="bg-green-8 text-white">
+      <p class="q-mb-xl ">Overall attendance rate: 79.63% </p>
+      <p>Active participation in the course </p>
+      <p>Behavior during the lesson:  {{good}}  </p>
+      <p class="q-mb-xl">Acquisition of knowledge:  {{partial}} </p>
+    </q-banner>
+  </div>
+  <div class="flex justify-between q-pb-xl q-py-lg">
+    <div>
+      <p>Next Course</p>
+      <q-banner rounded class="bg-green-8 text-white">
+        <p>Level 3 - Collaboration</p>
+        <p></p>
+      </q-banner>
+    </div>
+  <div>
+    <p>Next Event</p>
+      <q-banner rounded class="bg-green-8 text-white">
+        <p>23 April</p>
+        <p>04:00 pm</p>
+      </q-banner>
+  </div>
+</div>
+    
   </div>
 </template>
 
 <script>
 import { defineComponent } from 'vue'
+
 
 export default defineComponent({
   name: 'IndexPage',
